@@ -8,4 +8,6 @@ const {
     LAMPORTS_PER_SOL,
     clusterApiUrl,
     PublicKey,
+    Keypair,
 } = require ('@solana/web3.js')
+
