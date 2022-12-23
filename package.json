@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Alumist/BackEnd-Temp#readme",
   "dependencies": {
     "@solana/web3.js": "^1.70.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "node.js": "^0.0.1-security"
   }
