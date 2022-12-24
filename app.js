@@ -11,6 +11,7 @@ const {
     Keypair,
 } = require ('@solana/web3.js')
 
+///CODE BELLOW IS NEED FOR AXIOS/GET REQUEST
 app.use(function (req, res, next) {
     res.setHeader(`Access-Control-Allow-Origin`, `*`);
     res.setHeader(
@@ -24,6 +25,7 @@ app.use(function (req, res, next) {
     res.setHeader(`Access-Control-Allow-Credentials`, true);
     next();
   });
+  ///^^^^
   
   app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
@@ -40,20 +42,21 @@ app.get(`/getWalletBalance/:address`, async (req,res) => {
     })
 })
 
-app.get(`api-devnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both`, async (req, res) => {
-    res.send({
-        inventory: await getNFT(req.params.address)})
-})
-
-
 /// CONNECTION TO SERVER MAINNET   
 const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
-async function getNFT(wallet_address){
-    try {
-        return (await)
-    }
-}
+app.get(`/nfts_of_addy/:addy/`, async (req, res) => {
+    res.send(await getNftsOfAddy(req.params.addy));
+  })
+  
+  async function getNftsOfAddy(addy) {
+    let res = await (axios.get(`api-devnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both`)).data;
+  
+    let nfts = res.nfts; // or whatever { res } has, console.log(res) to figure out what you need to retrieve here
+  
+    return nfts;
+  }
+  
 /// getting api from magiceden
     //app.get(api-devnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both
 
