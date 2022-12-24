@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require(`express`);
 const app = express();
 const port = process.env.PORT || 3001;
+const axios = require('axios');
 
 const {
     Connection,
@@ -46,17 +47,20 @@ app.get(`/getWalletBalance/:address`, async (req,res) => {
 const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
 app.get(`/nfts_of_addy/:addy/`, async (req, res) => {
-    res.send(await getNftsOfAddy(req.params.addy));
+    res.send({
+        nfts: await getNftsOfAddy(req.params.addy)
+    });
   })
   
   async function getNftsOfAddy(addy) {
-    let res = await (axios.get(`api-devnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both`)).data;
+    let res = await (axios.get(`https://api-mainnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both`)).name;
+
+    let nfts = res; // or whatever { res } has, console.log(res) to figure out what you need to retrieve here
   
-    let nfts = res.nfts; // or whatever { res } has, console.log(res) to figure out what you need to retrieve here
-  
+    
     return nfts;
   }
-  
+
 /// getting api from magiceden
     //app.get(api-devnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both
 
