@@ -12,7 +12,7 @@ const {
     Keypair,
 } = require ('@solana/web3.js')
 
-///CODE BELLOW IS NEED FOR AXIOS/GET REQUEST
+///CODE BELLOW IS NEEDED FOR AXIOS/GET REQUEST
 app.use(function (req, res, next) {
     res.setHeader(`Access-Control-Allow-Origin`, `*`);
     res.setHeader(
@@ -46,19 +46,18 @@ app.get(`/getWalletBalance/:address`, async (req,res) => {
 /// CONNECTION TO SERVER MAINNET   
 const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
-app.get(`/nfts_of_addy/:addy/`, async (req, res) => {
+app.get(`/nfts_of_addy/:addy`, async (req, res) => {
     res.send({
         nfts: await getNftsOfAddy(req.params.addy)
     });
   })
   
   async function getNftsOfAddy(addy) {
-    let res = await (axios.get(`https://api-mainnet.magiceden.dev/v2/wallets/:wallet_address/tokens?offset=0&limit=100&listStatus=both`)).name;
-
-    let nfts = res; // or whatever { res } has, console.log(res) to figure out what you need to retrieve here
+    let nfts = (await axios.get(`https://api-mainnet.magiceden.dev/v2/wallets/${addy}/tokens?offset=0&limit=100&listStatus=both`)).data;
   
-    
-    return nfts;
+    console.log(nfts)
+
+    return nfts[0].name;
   }
 
 /// getting api from magiceden
