@@ -54,10 +54,13 @@ app.get(`/nfts_of_addy/:addy`, async (req, res) => {
   
   async function getNftsOfAddy(addy) {
     let nfts = (await axios.get(`https://api-mainnet.magiceden.dev/v2/wallets/${addy}/tokens?offset=0&limit=100&listStatus=both`)).data;
-  
-    console.log(nfts)
+    
+   
+      return nfts.map(nft => nft.name);    
+    
+    // for(var i; i < nfts.length(); i++)
+    // return nfts[i].name; 
 
-    return nfts[0].name;
   }
 
 /// getting api from magiceden
